@@ -1,30 +1,35 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DashboardPage from './pages/DashboardPage';
 import TransactionsPage from './pages/TransactionsPage';
-import LoginPage from './pages/LoginPage';
-import { useAuthStore } from './store/authStore';
 import AnalyticsPage from './pages/AnalyticsPage';
 import UsersPage from './pages/UsersPage';
-import NotFoundPage from './pages/NotFoundPage';
+import RoleGuard from './components/auth/RoleGuard';
 
-function App() {
-  // In a real app, you'd check for the cookie/session here
-  const { isAuthenticated } = useAuthStore();
-
+export default function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/analytics" element={<AnalyticsPage />} />
-        <Route path="/users" element={<UsersPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-        
-        {/* Protected Routes */}
         <Route path="/" element={<DashboardPage />} />
         <Route path="/transactions" element={<TransactionsPage />} />
+        
+        <Route 
+          path="/analytics" 
+          element={
+            <RoleGuard allowedRoles={['Admin', 'Analyst']}>
+              <AnalyticsPage />
+            </RoleGuard>
+          } 
+        />
+        
+        <Route 
+          path="/users" 
+          element={
+            <RoleGuard allowedRoles={['Admin']}>
+              <UsersPage />
+            </RoleGuard>
+          } 
+        />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
-
-export default App;

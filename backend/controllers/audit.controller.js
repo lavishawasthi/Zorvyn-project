@@ -1,7 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { AuditLog } from "../models/auditLog.model.js";
+import { AuditLog } from "../models/auditLog.models.js";
 
 const createLog = async (userId, action, details, ip) => {
     try {

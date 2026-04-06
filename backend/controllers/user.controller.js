@@ -130,8 +130,50 @@ const logoutUser = asyncHandler(async (req,res)=>{
 
 })
 
+
+//for admin only 
+
+const getAllUsers = asyncHandler(async (req, res) => {
+    const users = await User.find().select("-password");
+    return res.status(200).json(new ApiResponse(200, users, "Users fetched"));
+});
+
+const updateUserRole = asyncHandler(async (req, res) => {
+    const { userId, newRole } = req.body;
+
+    if (!["Admin", "Analyst", "Viewer"].includes(newRole)) {
+        throw new ApiError(400, "Invalid role");
+    }
+
+    const user = await User.findByIdAndUpdate(
+        userId,
+        { $set: { role: newRole } },
+        { new: true }
+    ).select("-password");
+
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    await createLog(
+        req.user._id,
+        "ROLE_UPDATE",
+        `Changed role of ${user.username} to ${newRole}`,
+        req.ip
+    );
+
+    return res.status(200).json(new ApiResponse(200, user, "Role updated"));
+});
+
+const getCurrentUser = asyncHandler(async (req, res) => {
+    return res.status(200).json(new ApiResponse(200, req.user, "Current user fetched"));
+});
+
 export {
     registerUser,
     loginUser,
-    logoutUser
+    logoutUser,
+    getAllUsers,
+    updateUserRole,
+    getCurrentUser
 }

@@ -17,9 +17,14 @@ app.use(cookieParser())
 
 //routes import
 import userRouter from './routes/user.routes.js'
+import transactionRouter from './routes/transaction.routes.js';
+import auditRouter from './routes/audit.routes.js';
+
 
 //routes declaaration
-app.use("/api/v1/users",userRouter)
+app.use("/api/v1/users",userRouter);
+app.use("/api/v1/transactions", transactionRouter);
+app.use("/api/v1/audit", auditRouter);
 
 
 export {app}

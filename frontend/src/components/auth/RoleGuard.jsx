@@ -1,10 +1,10 @@
 import { Navigate } from 'react-router-dom';
-import { useAuthStore } from '../../store/authStore';
+import { useAuth } from '../../context/AuthContext';
 
 export default function RoleGuard({ children, allowedRoles }) {
-  const { user, isAuthenticated } = useAuthStore();
+  const { user } = useAuth();
 
-  if (!isAuthenticated) {
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
 

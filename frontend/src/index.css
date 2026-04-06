@@ -1,12 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  /* This replaces the tailwind.config.js colors section */
-  --color-background: #0a0a0a;
-  --color-surface: #171717;
-  --color-primary: #fbbf24;
-  --color-secondary: #2dd4bf;
-  --color-danger: #f87171;
+  --color-background: #020617;
+  --color-surface: #0f172a;
+  --color-primary: #00f3ff;
+  --color-secondary: #38bdf8;
+  --color-danger: #f43f5e;
 }
 
 @layer base {

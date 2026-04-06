@@ -1,75 +1,76 @@
 import Layout from '../components/layout/Layout';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
 const data = [
-  { name: 'Jan', income: 4000, expense: 2400 },
-  { name: 'Feb', income: 3000, expense: 1398 },
-  { name: 'Mar', income: 2000, expense: 9800 },
-  { name: 'Apr', income: 2780, expense: 3908 },
-  { name: 'May', income: 1890, expense: 4800 },
+  { name: 'Q1', income: 45000, expense: 28000 },
+  { name: 'Q2', income: 38000, expense: 32000 },
+  { name: 'Q3', income: 52000, expense: 21000 },
+  { name: 'Q4', income: 64000, expense: 29000 },
 ];
 
 const budgets = [
-  { category: 'Housing', spent: 4000, limit: 5000, color: '#fbbf24' },
-  { category: 'Food', spent: 3200, limit: 3000, color: '#f87171' },
-  { category: 'Cloud Services', spent: 1500, limit: 2500, color: '#2dd4bf' },
-  { category: 'Entertainment', spent: 800, limit: 1000, color: '#818cf8' },
+  { category: 'INFRASTRUCTURE', spent: 18000, limit: 15000, color: '#00f3ff' },
+  { category: 'OPERATIONS', spent: 12000, limit: 20000, color: '#38bdf8' },
+  { category: 'PERSONNEL', spent: 45000, limit: 40000, color: '#f43f5e' },
+  { category: 'MARKETING', spent: 5000, limit: 10000, color: '#a855f7' },
 ];
 
 export default function AnalyticsPage() {
   return (
     <Layout>
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold">Financial Analytics</h2>
-        <p className="text-gray-400">Deep dive into your spending and revenue patterns</p>
-      </div>
+      <header className="mb-10">
+        <h2 className="text-3xl font-black text-white uppercase tracking-tight">Predictive Analytics</h2>
+        <p className="text-gray-500 font-bold text-sm tracking-widest uppercase opacity-80 mt-1">Deep-layer fiscal intelligence and trend mapping</p>
+      </header>
 
-      <div className="grid grid-cols-1 gap-8">
-        <div className="p-6 bg-surface border border-gray-800 rounded-2xl h-[400px]">
-          <h3 className="text-lg font-semibold mb-6">Income vs Expenses Trend</h3>
-          <ResponsiveContainer width="100%" height="90%">
+      <div className="grid grid-cols-1 gap-10">
+        <div className="p-8 bg-surface border border-gray-800 rounded-3xl h-[450px] shadow-2xl relative group">
+           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/2 rounded-full blur-[100px] pointer-events-none"></div>
+          <h3 className="text-sm font-black text-gray-500 uppercase tracking-[0.2em] mb-8">Yield vs Expenditure Coefficient</h3>
+          <ResponsiveContainer width="100%" height="85%">
             <AreaChart data={data}>
               <defs>
-                <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#2dd4bf" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#2dd4bf" stopOpacity={0}/>
+                <linearGradient id="colorPrimary" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#00f3ff" stopOpacity={0.2}/>
+                  <stop offset="95%" stopColor="#00f3ff" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#262626" vertical={false} />
-              <XAxis dataKey="name" stroke="#737373" fontSize={12} tickLine={false} axisLine={false} />
-              <YAxis stroke="#737373" fontSize={12} tickLine={false} axisLine={false} />
+              <CartesianGrid strokeDasharray="5 5" stroke="#1e293b" vertical={false} />
+              <XAxis dataKey="name" stroke="#475569" fontSize={10} fontWeight="900" tickLine={false} axisLine={false} dy={15} />
+              <YAxis stroke="#475569" fontSize={10} fontWeight="900" tickLine={false} axisLine={false} dx={-10} />
               <Tooltip 
-                contentStyle={{ backgroundColor: '#171717', border: '1px solid #262626', borderRadius: '8px' }}
-                itemStyle={{ fontSize: '12px' }}
+                contentStyle={{ backgroundColor: '#020617', border: '1px solid #1e293b', borderRadius: '16px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}
+                itemStyle={{ fontSize: '11px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}
               />
-              <Area type="monotone" dataKey="income" stroke="#2dd4bf" fillOpacity={1} fill="url(#colorIncome)" strokeWidth={2} />
-              <Area type="monotone" dataKey="expense" stroke="#f87171" fill="transparent" strokeWidth={2} strokeDasharray="5 5" />
+              <Area type="step" dataKey="income" stroke="#00f3ff" fillOpacity={1} fill="url(#colorPrimary)" strokeWidth={4} />
+              <Area type="step" dataKey="expense" stroke="#f43f5e" fill="transparent" strokeWidth={3} strokeDasharray="6 3" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="p-6 bg-surface border border-gray-800 rounded-2xl">
-            <h3 className="text-lg font-semibold mb-6">Category Budgets</h3>
-            <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="p-8 bg-surface border border-gray-800 rounded-3xl shadow-2xl">
+            <h3 className="text-sm font-black text-gray-500 uppercase tracking-[0.2em] mb-8">Departmental Allocation Audit</h3>
+            <div className="space-y-8">
               {budgets.map((item) => {
                 const percentage = Math.min((item.spent / item.limit) * 100, 100);
                 const isOver = item.spent > item.limit;
                 
                 return (
                   <div key={item.category}>
-                    <div className="flex justify-between mb-2 text-sm">
-                      <span className="text-gray-400">{item.category}</span>
-                      <span className={isOver ? 'text-danger font-bold' : 'text-white'}>
-                        ₹{item.spent.toLocaleString()} / ₹{item.limit.toLocaleString()}
+                    <div className="flex justify-between mb-3">
+                      <span className="text-[10px] font-black text-gray-500 tracking-widest uppercase">{item.category}</span>
+                      <span className={`text-[10px] font-black tracking-widest uppercase ${isOver ? 'text-danger animate-pulse' : 'text-primary'}`}>
+                        {item.spent.toLocaleString()} / {item.limit.toLocaleString()}
                       </span>
                     </div>
-                    <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div className="h-2.5 bg-background border border-gray-800 rounded-full overflow-hidden p-0.5">
                       <div 
-                        className="h-full transition-all duration-500" 
+                        className="h-full rounded-full transition-all duration-1000 ease-out" 
                         style={{ 
                           width: `${percentage}%`, 
-                          backgroundColor: isOver ? '#f87171' : item.color 
+                          backgroundColor: isOver ? '#f43f5e' : '#00f3ff',
+                          boxShadow: `0 0 15px ${isOver ? '#f43f5e' : '#00f3ff'}33`
                         }}
                       ></div>
                     </div>
@@ -79,12 +80,13 @@ export default function AnalyticsPage() {
             </div>
           </div>
           
-          <div className="p-6 bg-surface border border-gray-800 rounded-2xl flex flex-col justify-center items-center text-center">
-            <p className="text-gray-400 mb-2">Savings Rate</p>
-            <h4 className="text-5xl font-bold text-secondary">24.5%</h4>
-            <div className="mt-6 p-4 bg-gray-900/50 rounded-xl border border-gray-800 w-full">
-              <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Status</p>
-              <p className="text-sm font-medium text-secondary">On Track to Yearly Goal</p>
+          <div className="p-8 bg-surface border border-gray-800 rounded-3xl flex flex-col justify-center items-center text-center shadow-2xl relative overflow-hidden group">
+             <div className="absolute bottom-0 left-0 w-full h-1 bg-primary/20 scale-x-0 group-hover:scale-x-100 transition-transform duration-700"></div>
+            <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-4">Capital Retention Velocity</p>
+            <h4 className="text-7xl font-black text-primary tracking-tighter hover:scale-110 transition-transform cursor-default">31.8%</h4>
+            <div className="mt-10 p-5 bg-background border border-gray-800 rounded-2xl w-full">
+              <p className="text-[9px] font-black text-gray-600 uppercase tracking-[0.3em] mb-2">Nexus Status</p>
+              <p className="text-xs font-black text-secondary tracking-widest uppercase">OPTIMAL OPERATIONAL FLOW</p>
             </div>
           </div>
         </div>

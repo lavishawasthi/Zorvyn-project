@@ -1,9 +1,9 @@
 import { LayoutDashboard, ReceiptText, BarChart3, Users, LogOut } from 'lucide-react';
-import { useAuthStore } from '../../store/authStore';
+import { useAuth } from '../../context/AuthContext';
 import { Link, useLocation } from 'react-router-dom';
 
 export default function Sidebar() {
-  const { user, logout } = useAuthStore();
+  const { user, logout } = useAuth();
   const location = useLocation();
 
   const menuItems = [
@@ -14,10 +14,10 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 h-screen bg-surface border-r border-gray-800 flex flex-col sticky top-0">
+    <aside className="w-64 h-screen bg-surface border-r border-gray-800 flex flex-col sticky top-0 shadow-2xl">
       <div className="p-8">
         <h1 className="text-2xl font-black tracking-tighter text-white flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-black">F</div>
+          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-black font-bold">F</div>
           FINANCE.IO
         </h1>
       </div>
@@ -34,33 +34,33 @@ export default function Sidebar() {
               to={item.path}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
                 isActive 
-                ? 'bg-primary/10 text-primary' 
+                ? 'bg-primary/10 text-primary shadow-inner shadow-primary/5' 
                 : 'text-gray-400 hover:bg-gray-800/50 hover:text-white'
               }`}
             >
               <item.icon size={20} className={isActive ? 'text-primary' : 'text-gray-400 group-hover:text-white'} />
-              <span className="font-medium">{item.label}</span>
+              <span className="font-bold tracking-tight text-sm">{item.label}</span>
             </Link>
           );
         })}
       </nav>
 
       <div className="p-4 border-t border-gray-800">
-        <div className="flex items-center gap-3 px-4 py-3 mb-2">
-          <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-xs font-bold text-primary">
-            {user?.name?.[0]}
+        <div className="flex items-center gap-3 px-4 py-3 mb-2 bg-background/50 rounded-2xl border border-gray-800">
+          <div className="w-10 h-10 rounded-xl bg-gray-800 flex items-center justify-center text-sm font-bold text-primary ring-1 ring-primary/20">
+            {user?.fullname?.[0] || user?.username?.[0]}
           </div>
           <div className="overflow-hidden">
-            <p className="text-sm font-bold text-white truncate">{user?.name}</p>
-            <p className="text-[10px] text-gray-500 uppercase tracking-widest">{user?.role}</p>
+            <p className="text-sm font-bold text-white truncate">{user?.fullname || user?.username}</p>
+            <p className="text-[10px] text-primary/80 font-bold uppercase tracking-widest">{user?.role}</p>
           </div>
         </div>
         <button 
           onClick={logout}
-          className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-danger hover:bg-danger/10 transition-colors"
+          className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-danger hover:bg-danger/10 transition-all font-bold text-sm"
         >
           <LogOut size={20} />
-          <span className="font-medium">Logout</span>
+          <span>Logout</span>
         </button>
       </div>
     </aside>

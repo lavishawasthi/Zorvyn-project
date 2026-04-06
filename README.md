@@ -35,7 +35,7 @@ src/
 Clone the repository:
 
 Bash
-git clone https://github.com/yourusername/project-name.git
+git clone https://github.com/lavishawasthi/Zorvyn-project.git
 cd project-name
 Install dependencies:
 
